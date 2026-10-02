@@ -407,3 +407,91 @@
   margin: 0.08em 0.1em 0 -0.02em;
   color: var(--color-iris);
 }
+
+/* ------------------------------------------------------------------
+   Editor-only affordances (the studio's ProseMirror element).
+   ------------------------------------------------------------------ */
+.ProseMirror {
+  caret-color: var(--color-iris);
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  white-space: break-spaces;
+  -webkit-font-variant-ligatures: none;
+  font-variant-ligatures: none;
+}
+.ProseMirror [contenteditable='false'] {
+  white-space: normal;
+}
+.ProseMirror p.is-empty::before,
+.ProseMirror h2.is-empty::before,
+.ProseMirror h3.is-empty::before,
+.ProseMirror h4.is-empty::before,
+.ProseMirror .is-empty[data-placeholder]::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+  color: var(--color-ink-faint);
+  opacity: 0.6;
+}
+/* Only show the "Type / for blocks" hint on the line being edited. */
+.ProseMirror:not(.ProseMirror-focused) p.is-empty:not(:first-child)::before,
+.ProseMirror p.is-empty:not(.has-focus):not(:first-child)::before {
+  content: none;
+}
+.ProseMirror .pull-quote div.is-empty::before {
+  content: attr(data-placeholder);
+}
+
+.ProseMirror-selectednode:not(figure):not(.embed):not([data-youtube-video]) {
+  outline: 3px solid var(--color-iris);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+.ProseMirror hr.ProseMirror-selectednode::after {
+  color: var(--color-gold);
+}
+.ProseMirror figure {
+  cursor: default;
+}
+.ProseMirror figure.ProseMirror-selectednode {
+  outline: none;
+}
+
+.ProseMirror div[data-youtube-video] {
+  max-width: var(--wide);
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-ink);
+}
+.ProseMirror div[data-youtube-video] iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  pointer-events: none;
+}
+.ProseMirror div[data-youtube-video].ProseMirror-selectednode {
+  outline: 3px solid var(--color-iris);
+  outline-offset: 3px;
+}
+
+.ProseMirror .tableWrapper {
+  max-width: var(--wide);
+  overflow-x: auto;
+}
+.ProseMirror .selectedCell {
+  background: color-mix(in oklab, var(--color-iris) 12%, transparent);
+}
+
+.ProseMirror .ProseMirror-gapcursor:after {
+  border-top-color: var(--color-iris);
+}
+
+.ProseMirror ul[data-type='taskList'] > li > label input {
+  cursor: pointer;
+}
+
+.ProseMirror .callout-icon {
+  color: var(--color-iris);
+}
