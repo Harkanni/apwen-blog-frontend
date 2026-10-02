@@ -1,0 +1,259 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/bricolage-grotesque';
+@import '@fontsource-variable/literata';
+@import '@fontsource-variable/literata/wght-italic.css';
+@import './content.css';
+
+/* ------------------------------------------------------------------
+   Design tokens. See DESIGN.md for the reasoning behind each value.
+   ------------------------------------------------------------------ */
+@theme {
+  --font-sans: 'Bricolage Grotesque Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Literata Variable', Georgia, 'Times New Roman', serif;
+
+  --color-ink: #1e0f2e;          /* text, deep aubergine */
+  --color-ink-soft: #4b3d5c;     /* secondary text */
+  --color-ink-faint: #7d7090;    /* meta, captions */
+  --color-iris: #6b2fa3;         /* APWEN purple: links, primary actions */
+  --color-iris-deep: #4e1c80;    /* pressed / hover */
+  --color-iris-bright: #8a4fd0;  /* on dark surfaces */
+  --color-mist: #f5f0fb;         /* tinted surface */
+  --color-mist-deep: #ece3f7;    /* tinted surface, stronger */
+  --color-line: #e6dcf3;         /* hairlines (desktop only) */
+  --color-paper: #ffffff;
+  --color-gold: #e9a23b;         /* hard-hat gold: highlights, featured */
+  --color-gold-soft: #fdf1dc;
+  --color-danger: #c2334d;
+  --color-danger-soft: #fdecef;
+  --color-success: #23855b;
+  --color-success-soft: #e5f5ec;
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+
+  --shadow-float: 0 1px 2px rgb(30 15 46 / 0.06), 0 12px 32px -8px rgb(78 28 128 / 0.22);
+  --shadow-lift: 0 1px 1px rgb(30 15 46 / 0.04), 0 4px 14px -4px rgb(78 28 128 / 0.14);
+
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+
+  --animate-rise: rise 520ms var(--ease-out-quint) both;
+  --animate-fade: fade 280ms ease-out both;
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --header-h: 64px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-padding-top: calc(var(--header-h) + 16px);
+  }
+
+  body {
+    min-height: 100dvh;
+    font-feature-settings: 'ss01', 'ss02';
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-iris) 22%, transparent);
+  }
+
+  :focus-visible {
+    outline: 2.5px solid var(--color-iris);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  button,
+  [role='button'] {
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 1ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Page gutter that matches the reading column on every screen size. */
+  .wrap {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 20px;
+  }
+  @media (min-width: 768px) {
+    .wrap {
+      padding-inline: 32px;
+    }
+  }
+
+  /* Buttons — pill shaped, never outlined with thick borders. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 44px;
+    padding-inline: 1.15rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: -0.005em;
+    white-space: nowrap;
+    transition: background-color 160ms ease, color 160ms ease, transform 160ms var(--ease-spring), box-shadow 160ms ease;
+    user-select: none;
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .btn-primary {
+    background: var(--color-iris);
+    color: #fff;
+    box-shadow: 0 6px 18px -8px rgb(107 47 163 / 0.65);
+  }
+  .btn-primary:hover {
+    background: var(--color-iris-deep);
+  }
+  .btn-soft {
+    background: var(--color-mist);
+    color: var(--color-iris-deep);
+  }
+  .btn-soft:hover {
+    background: var(--color-mist-deep);
+  }
+  .btn-ghost {
+    color: var(--color-ink-soft);
+  }
+  .btn-ghost:hover {
+    background: var(--color-mist);
+    color: var(--color-ink);
+  }
+  .btn-danger {
+    background: var(--color-danger);
+    color: #fff;
+  }
+  .btn-danger:hover {
+    background: color-mix(in oklab, var(--color-danger) 85%, black);
+  }
+  .btn-sm {
+    height: 36px;
+    padding-inline: 0.85rem;
+    font-size: 0.875rem;
+  }
+  .btn-icon {
+    width: 44px;
+    padding: 0;
+  }
+  .btn-icon.btn-sm {
+    width: 36px;
+  }
+
+  /* Form fields: tinted wells, no borders; focus draws a soft iris ring. */
+  .field {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.7rem 1rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-mist);
+    color: var(--color-ink);
+    font-size: 1rem; /* 16px stops iOS zooming on focus */
+    transition: box-shadow 160ms ease, background-color 160ms ease;
+  }
+  .field::placeholder {
+    color: var(--color-ink-faint);
+  }
+  .field:focus {
+    outline: none;
+    background: #fff;
+    box-shadow: 0 0 0 2px var(--color-iris), 0 0 0 6px rgb(107 47 163 / 0.12);
+  }
+  .label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-ink-soft);
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* The engineering dimension line: |<———— label ————>| */
+  .dimension {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--color-ink-faint);
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .dimension::before,
+  .dimension::after {
+    content: '';
+    flex: 1;
+    height: 9px;
+    background:
+      linear-gradient(currentColor, currentColor) left center / 100% 1px no-repeat,
+      linear-gradient(currentColor, currentColor) left center / 1px 9px no-repeat;
+    opacity: 0.45;
+  }
+  .dimension::after {
+    background:
+      linear-gradient(currentColor, currentColor) left center / 100% 1px no-repeat,
+      linear-gradient(currentColor, currentColor) right center / 1px 9px no-repeat;
+  }
+
+  .skeleton {
+    background: linear-gradient(100deg, var(--color-mist) 40%, var(--color-mist-deep) 50%, var(--color-mist) 60%) 0 0 / 200% 100%;
+    animation: shimmer 1.4s linear infinite;
+    border-radius: var(--radius-sm);
+  }
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
