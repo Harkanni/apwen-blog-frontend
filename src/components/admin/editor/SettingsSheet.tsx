@@ -30,10 +30,11 @@ type Props = {
   postId: number | null;
   isLive: boolean;
   words: number;
+  autoExcerpt: string;
   onRestore: (rev: { title: string; content: JSONNode }) => void;
 };
 
-export function SettingsSheet({ open, onOpenChange, fields, onChange, categories, postId, isLive, words, onRestore }: Props) {
+export function SettingsSheet({ open, onOpenChange, fields, onChange, categories, postId, isLive, words, autoExcerpt, onRestore }: Props) {
   const [tagInput, setTagInput] = useState('');
   const [revisions, setRevisions] = useState<Revision[] | null>(null);
   const [restoring, setRestoring] = useState<number | null>(null);
@@ -118,10 +119,13 @@ export function SettingsSheet({ open, onOpenChange, fields, onChange, categories
             maxLength={300}
             value={fields.excerpt}
             onChange={(e) => onChange({ excerpt: e.target.value })}
-            placeholder="Shown on story cards and when shared on social media. Leave empty to use the first lines of the story."
+            placeholder={autoExcerpt || 'Shown on story cards and when shared on social media. Leave empty to use the first lines of the story.'}
             className="field resize-none leading-relaxed"
           />
-          <p className="mt-1 text-right text-[0.78rem] tabular-nums text-ink-faint">{fields.excerpt.length}/300</p>
+          <p className="mt-1 flex justify-between gap-3 text-[0.78rem] text-ink-faint">
+            <span>{fields.excerpt ? 'Written by you' : 'Leave empty to use the first lines of the story'}</span>
+            <span className="tabular-nums">{fields.excerpt.length}/300</span>
+          </p>
         </section>
 
         <section>

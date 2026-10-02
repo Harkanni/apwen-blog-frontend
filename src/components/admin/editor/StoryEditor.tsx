@@ -34,7 +34,7 @@ function fieldsFrom(post: Partial<Post> | null, fallbackAuthor: string, defaultC
     cover_alt: post?.cover_alt ?? '',
     category: post?.category || defaultCategory,
     tags: post?.tags ?? [],
-    excerpt: post?.excerpt ?? '',
+    excerpt: post?.excerpt_custom ? post.excerpt : '',
     slug: post?.slug ?? '',
     author_name: post?.author_name || fallbackAuthor,
     featured: post?.featured ?? false,
@@ -288,7 +288,7 @@ export function StoryEditor({ initialId }: { initialId: number | null }) {
         setPost(saved);
         setLastSaved(saved.updated_at);
         // Server may adjust the address (uniqueness) or derive a summary.
-        setFields((f) => ({ ...f, slug: saved.slug, excerpt: f.excerpt || '' }));
+        setFields((f) => ({ ...f, slug: saved.slug }));
         setSave('saved');
         clearBackup();
         return saved;
@@ -674,6 +674,7 @@ export function StoryEditor({ initialId }: { initialId: number | null }) {
         postId={postId}
         isLive={isLive}
         words={words}
+        autoExcerpt={post?.excerpt_custom ? '' : post?.excerpt || ''}
         onRestore={(rev) => {
           editor.commands.setContent(rev.content);
           update({ title: rev.title });

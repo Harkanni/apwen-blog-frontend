@@ -14,6 +14,8 @@ export type PostSummary = {
   title: string;
   subtitle: string;
   excerpt: string;
+  /** true when the summary was written by hand; otherwise it's derived from the story */
+  excerpt_custom?: boolean;
   cover_image: string | null;
   cover_alt: string;
   category: string;
