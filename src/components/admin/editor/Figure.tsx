@@ -2,7 +2,7 @@
 
 import Image from '@tiptap/extension-image';
 import { mergeAttributes } from '@tiptap/core';
-import { NodeViewWrapper, ReactNodeViewRenderer, type ReactNodeViewProps } from '@tiptap/react';
+import { NodeViewWrapper, ReactNodeViewRenderer, type NodeViewProps } from '@tiptap/react';
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { RectangleHorizontal, Columns2, Maximize2, Trash2, Replace, Loader2, TextCursorInput } from 'lucide-react';
 import { cn } from '@/lib/format';
@@ -34,7 +34,7 @@ const LAYOUTS = [
   { key: 'full', label: 'Full width', icon: Maximize2 },
 ] as const;
 
-function FigureView({ node, updateAttributes, deleteNode, selected, editor, getPos }: ReactNodeViewProps) {
+function FigureView({ node, updateAttributes, deleteNode, selected, editor, getPos }: NodeViewProps) {
   const { src, alt, caption, layout, uploadId } = node.attrs as Record<string, any>;
   const pct = useUploadProgress(uploadId);
   const uploading = typeof src === 'string' && src.startsWith('blob:');

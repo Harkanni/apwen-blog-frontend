@@ -1,7 +1,7 @@
 'use client';
 
 import { Node, mergeAttributes } from '@tiptap/core';
-import { NodeViewContent, NodeViewWrapper, ReactNodeViewRenderer, type ReactNodeViewProps } from '@tiptap/react';
+import { NodeViewContent, NodeViewWrapper, ReactNodeViewRenderer, type NodeViewProps } from '@tiptap/react';
 import { Info, Lightbulb, TriangleAlert, CircleCheck } from 'lucide-react';
 
 const VARIANTS = ['info', 'tip', 'warning', 'success'] as const;
@@ -21,7 +21,7 @@ declare module '@tiptap/core' {
   }
 }
 
-function CalloutView({ node, updateAttributes, editor }: ReactNodeViewProps) {
+function CalloutView({ node, updateAttributes, editor }: NodeViewProps) {
   const variant = (node.attrs.variant || 'info') as Variant;
   const Icon = ICON[variant];
   const next = VARIANTS[(VARIANTS.indexOf(variant) + 1) % VARIANTS.length];
@@ -84,7 +84,7 @@ export const Callout = Node.create({
   },
 });
 
-function PullQuoteView({ node, updateAttributes, editor }: ReactNodeViewProps) {
+function PullQuoteView({ node, updateAttributes, editor }: NodeViewProps) {
   return (
     <NodeViewWrapper as="figure" className="pull-quote">
       <NodeViewContent as="div" className="outline-none" />
